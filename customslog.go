@@ -96,10 +96,27 @@ func NewHandler(opts *slog.HandlerOptions) *CustomSlogHandler {
 	buff := &bytes.Buffer{}
 	return &CustomSlogHandler{
 		handler: slog.NewJSONHandler(buff, &slog.HandlerOptions{
-			Level:     opts.Level,
-			AddSource: opts.AddSource,
+			Level:       opts.Level,
+			AddSource:   opts.AddSource,
+			ReplaceAttr: suppressDefaults(opts.ReplaceAttr),
 		}),
 		buff: buff,
 		mu:   &sync.Mutex{},
+	}
+}
+
+func suppressDefaults(
+	next func([]string, slog.Attr) slog.Attr,
+) func([]string, slog.Attr) slog.Attr {
+	return func(groups []string, a slog.Attr) slog.Attr {
+		if a.Key == slog.TimeKey ||
+			a.Key == slog.LevelKey ||
+			a.Key == slog.MessageKey {
+			return slog.Attr{}
+		}
+		if next == nil {
+			return a
+		}
+		return next(groups, a)
 	}
 }
