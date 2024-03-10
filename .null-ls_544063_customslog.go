@@ -78,12 +78,12 @@ func (h *CustomSlogHandler) attrMake(ctx context.Context, r slog.Record) (map[st
 	defer h.mu.Unlock()
 
 	if err := h.handler.Handle(ctx, r); err != nil {
-		return nil, eRR_INNER_HANDLER
+		return nil, ERR_INNER_HANDLER
 	}
 	attr := map[string]any{}
 	err := json.Unmarshal(h.buff.Bytes(), &attr)
 	if err != nil {
-		return nil, eRR_INNER_UNMARSHAL
+		return nil, ERR_INNER_UNMARSHAL
 	}
 	return attr, nil
 }
