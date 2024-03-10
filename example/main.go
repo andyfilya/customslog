@@ -8,7 +8,22 @@ import (
 
 func main() {
 	customhandler := customslog.NewHandler(nil)
-	logger := slog.New(customhandler)
+	// info(customhandler)
+	debug(customhandler)
+	error(customhandler)
+}
 
-	logger.Info("hello world!")
+func info(c *customslog.CustomSlogHandler) {
+	logger := slog.New(c)
+	logger.Info("in function info.")
+}
+
+func debug(c *customslog.CustomSlogHandler) {
+	logger := slog.New(c)
+	logger.Debug("in function debug.")
+}
+
+func error(c *customslog.CustomSlogHandler) {
+	logger := slog.New(c)
+	logger.Error("in function error.")
 }
