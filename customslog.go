@@ -13,8 +13,8 @@ import (
 )
 
 var (
-	ERR_INNER_HANDLER   = errors.New("error when call unwrap Handler")
-	ERR_INNER_UNMARSHAL = errors.New("error unmarshal result of unwrap Handler")
+	eRR_INNER_HANDLER   = errors.New("error when call unwrap Handler")
+	eRR_INNER_UNMARSHAL = errors.New("error unmarshal result of unwrap Handler")
 )
 
 type CustomSlogHandler struct {
