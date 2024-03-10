@@ -67,7 +67,7 @@ func (h *CustomSlogHandler) Handle(ctx context.Context, r slog.Record) error {
 	if err != nil {
 		return err
 	}
-	out := r.Time.Format(timeStamp) + color.WhiteString("%s", r.Message) + color.BlackString(string(bytes))
+	out := "[" + color.YellowString(r.Time.Format(timeStamp)) + "] " + color.WhiteString(r.Message) + " " + color.BlackString(string(bytes))
 	os.Stdout.WriteString(out)
 
 	return nil
