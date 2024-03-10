@@ -86,3 +86,19 @@ func (h *CustomSlogHandler) attrMake(ctx context.Context, r slog.Record) (map[st
 	}
 	return attr, nil
 }
+
+func NewHandler(opts *slog.HandlerOptions) *CustomSlogHandler {
+	if opts == nil {
+		opts = &slog.HandlerOptions{}
+	}
+
+	buff := &bytes.Buffer{}
+	return &CustomSlogHandler{
+		handler: slog.NewJSONHandler(buff, &slog.HandlerOptions{
+			Level:     opts.Level,
+			AddSource: opts.AddSource,
+		}),
+		buff: buff,
+		mu:   &sync.Mutex{},
+	}
+}
